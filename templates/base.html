@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediTrack - {% block title %}{% endblock title %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center me-6">
+                        <i class="fas fa-pills text-blue-600 text-2xl mr-3"></i>
+                        <a href="{% url "dashboard" %}" class="text-xl font-bold text-gray-800">MediTrack</a>
+                    </div>
+                    {% with request.resolver_match.url_name as url_name %}
+                    <!-- Desktop Navigation -->
+                    <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                        <a href="{% url "dashboard" %}" class=" {% if url_name == 'dashboard' %}border-blue-500 border-b-2{% endif %} text-gray-900 inline-flex items-center px-1 pt-1  text-sm font-medium">
+                            <i class="fas fa-tachometer-alt mr-2"></i>Dashboard
+                        </a>
+                        <a href="{% url "stock_in" %}" class="{% if url_name == 'stock_in' %}border-blue-500 border-b-2{% endif %} text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1  text-sm font-medium">
+                            <i class="fas fa-arrow-down mr-2"></i>Stock In
+                        </a>
+                        <a href="{% url "dispense" %}" class="{% if url_name == 'dispense' %}border-blue-500 border-b-2{% endif %} text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1  text-sm font-medium">
+                            <i class="fas fa-arrow-up mr-2"></i>Dispense
+                        </a>
+                        <a href="{% url "reports" %}" class="{% if url_name == 'reports' %}border-blue-500 border-b-2{% endif %} text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1  text-sm font-medium">
+                            <i class="fas fa-chart-bar mr-2"></i>Reports
+                        </a>
+                        <a href="{% url "inventory" %}" class="{% if url_name == 'inventory' %}border-blue-500 border-b-2{% endif %} text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1  text-sm font-medium">
+                            <i class="fas fa-boxes mr-2"></i>Inventory
+                        </a>
+                    </div>
+                    {% endwith %}
+                </div>
+
+                <!-- Right Side -->
+                <div class="flex items-center">
+                    <!-- Notifications -->
+                    <div class="relative mr-4">
+                        <button class="p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none">
+                            <i class="fas fa-bell text-xl"></i>
+                            <span class="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-400"></span>
+                        </button>
+                    </div>
+
+                    <!-- User Profile -->
+                    <div class="ml-3 relative">
+                        <div class="flex items-center cursor-pointer">
+                            <div class="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center">
+                                <i class="fas fa-user-md text-blue-600"></i>
+                            </div>
+                            <span class="ml-2 text-sm font-medium text-gray-700">Md Mehadi Hasan</span>
+                            <i class="fas fa-chevron-down ml-1 text-gray-400 text-xs"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    {% block content %}
+        
+    {% endblock content %}
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-8">
+        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="text-sm text-gray-500">
+                    © 2025 MediTrack. All rights reserved. 
+                    <span class="mx-2">|</span>
+                    <span class="text-blue-600 flex items-center md:inline">
+                        <i class="fas fa-shield-alt mr-1"></i>Mehadi Pharma Limited
+                    </span>
+                </div>
+                <div class="mt-2 md:mt-0">
+                    <span class="text-xs text-gray-400">v2.1.4 | Last sync: Today, 14:30</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

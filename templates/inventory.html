@@ -1,0 +1,366 @@
+{% extends "base.html" %}
+{% block title %}Inventory{% endblock title %}
+{% block content %}
+
+    <main class="py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Page Header -->
+            <div class="mb-8">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h1 class="text-3xl font-bold text-gray-900">Inventory Management</h1>
+                        <p class="text-gray-600 mt-2">Manage all medicines, batches, and inventory settings</p>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center">
+                            <i class="fas fa-plus mr-2"></i>Add Medicine
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white rounded-xl shadow-md p-6 text-center hover:shadow-lg transition-shadow duration-200">
+                    <p class="text-sm text-gray-500">Active Medicines</p>
+                    <p class="text-2xl font-bold text-gray-900 mt-2">48</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-md p-6 text-center hover:shadow-lg transition-shadow duration-200">
+                    <p class="text-sm text-gray-500">Total Batches</p>
+                    <p class="text-2xl font-bold text-gray-900 mt-2">124</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-md p-6 text-center hover:shadow-lg transition-shadow duration-200">
+                    <p class="text-sm text-gray-500">Near Expiry</p>
+                    <p class="text-2xl font-bold text-gray-900 mt-2">24</p>
+                    <p class="text-xs text-red-600 mt-1">≤ 30 days</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-md p-6 text-center hover:shadow-lg transition-shadow duration-200">
+                    <p class="text-sm text-gray-500">Out of Stock</p>
+                    <p class="text-2xl font-bold text-gray-900 mt-2">3</p>
+                </div>
+            </div>
+
+            <!-- Search and Filter -->
+            <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Search Inventory</label>
+                        <div class="relative">
+                            <input type="text" 
+                                   class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                   placeholder="Search medicines, batches, categories...">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-search text-gray-400"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <option selected>All Categories</option>
+                            <option>Tablets</option>
+                            <option>Syrups</option>
+                            <option>Injections</option>
+                            <option>Capsules</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <option selected>All Status</option>
+                            <option>In Stock</option>
+                            <option>Low Stock</option>
+                            <option>Out of Stock</option>
+                            <option>Expired</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inventory Table -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-lg font-semibold text-gray-900">Medicine Inventory</h2>
+                        <div class="text-sm text-gray-500">48 items</div>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Medicine</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Stock</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Batches</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4">
+                                    <div>
+                                        <div class="text-sm font-medium text-gray-900">Paracetamol 500mg</div>
+                                        <div class="text-sm text-gray-500">Analgesic/Antipyretic</div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">Tablet</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-gray-900">1,250</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">4</td>
+                                <td class="px-6 py-4">
+                                    <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">In Stock</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm font-medium">
+                                    <button class="text-blue-600 hover:text-blue-900 mr-3">View</button>
+                                    <button class="text-green-600 hover:text-green-900">Edit</button>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4">
+                                    <div>
+                                        <div class="text-sm font-medium text-gray-900">Amoxicillin 250mg</div>
+                                        <div class="text-sm text-gray-500">Antibiotic</div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-800">Capsule</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-gray-900">850</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">3</td>
+                                <td class="px-6 py-4">
+                                    <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">In Stock</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm font-medium">
+                                    <button class="text-blue-600 hover:text-blue-900 mr-3">View</button>
+                                    <button class="text-green-600 hover:text-green-900">Edit</button>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4">
+                                    <div>
+                                        <div class="text-sm font-medium text-gray-900">Insulin Glargine</div>
+                                        <div class="text-sm text-gray-500">Anti-diabetic</div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800">Injection</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-gray-900">320</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">2</td>
+                                <td class="px-6 py-4">
+                                    <span class="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-800">Low Stock</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm font-medium">
+                                    <button class="text-blue-600 hover:text-blue-900 mr-3">View</button>
+                                    <button class="text-green-600 hover:text-green-900">Edit</button>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4">
+                                    <div>
+                                        <div class="text-sm font-medium text-gray-900">Adrenaline 1mg</div>
+                                        <div class="text-sm text-gray-500">Emergency</div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800">Injection</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-gray-900">5</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">1</td>
+                                <td class="px-6 py-4">
+                                    <span class="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800">Critical</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm font-medium">
+                                    <button class="text-blue-600 hover:text-blue-900 mr-3">View</button>
+                                    <button class="text-green-600 hover:text-green-900">Edit</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="px-6 py-4 border-t border-gray-200">
+                    <div class="flex justify-between items-center">
+                        <div class="text-sm text-gray-500">
+                            Showing 1-10 of 48
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="px-3 py-1 border rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="px-3 py-1 border rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Medicine Management -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <!-- Category Management -->
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-6">Medicine Categories</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                            <div class="flex items-center">
+                                <div class="bg-blue-100 p-2 rounded-full mr-3">
+                                    <i class="fas fa-tablets text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900">Tablets</p>
+                                    <p class="text-xs text-gray-500">24 medicines</p>
+                                </div>
+                            </div>
+                            <button class="text-blue-600 hover:text-blue-800">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                            <div class="flex items-center">
+                                <div class="bg-green-100 p-2 rounded-full mr-3">
+                                    <i class="fas fa-syringe text-green-600"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900">Injections</p>
+                                    <p class="text-xs text-gray-500">12 medicines</p>
+                                </div>
+                            </div>
+                            <button class="text-blue-600 hover:text-blue-800">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                            <div class="flex items-center">
+                                <div class="bg-yellow-100 p-2 rounded-full mr-3">
+                                    <i class="fas fa-prescription-bottle-alt text-yellow-600"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900">Syrups</p>
+                                    <p class="text-xs text-gray-500">8 medicines</p>
+                                </div>
+                            </div>
+                            <button class="text-blue-600 hover:text-blue-800">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors duration-200 w-full flex items-center justify-center">
+                            <i class="fas fa-plus mr-2"></i>Add New Category
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Supplier Management -->
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-6">Suppliers</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                            <div class="flex items-center">
+                                <div class="bg-purple-100 p-2 rounded-full mr-3">
+                                    <i class="fas fa-truck text-purple-600"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900">MediPharm Distributors</p>
+                                    <p class="text-xs text-gray-500">Primary supplier</p>
+                                </div>
+                            </div>
+                            <button class="text-blue-600 hover:text-blue-800">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                            <div class="flex items-center">
+                                <div class="bg-pink-100 p-2 rounded-full mr-3">
+                                    <i class="fas fa-industry text-pink-600"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900">HealthCare Supplies Ltd.</p>
+                                    <p class="text-xs text-gray-500">Secondary supplier</p>
+                                </div>
+                            </div>
+                            <button class="text-blue-600 hover:text-blue-800">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                            <div class="flex items-center">
+                                <div class="bg-indigo-100 p-2 rounded-full mr-3">
+                                    <i class="fas fa-globe text-indigo-600"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900">Global Pharma Corp</p>
+                                    <p class="text-xs text-gray-500">International supplier</p>
+                                </div>
+                            </div>
+                            <button class="text-blue-600 hover:text-blue-800">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors duration-200 w-full flex items-center justify-center">
+                            <i class="fas fa-plus mr-2"></i>Add New Supplier
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stock Adjustment -->
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-6">Stock Adjustment</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Select Batch</label>
+                        <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <option>Select batch to adjust...</option>
+                            <option>PC-2024-001 (Paracetamol 500mg)</option>
+                            <option>AM-2024-005 (Amoxicillin 250mg)</option>
+                            <option>IN-2024-003 (Insulin Glargine)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Adjustment Type</label>
+                        <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <option>Add Stock</option>
+                            <option>Remove Stock</option>
+                            <option>Mark as Damaged</option>
+                            <option>Mark as Lost</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Quantity</label>
+                        <input type="number" 
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                               placeholder="Enter quantity"
+                               min="1">
+                    </div>
+                </div>
+
+                <div class="mt-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Reason for Adjustment</label>
+                    <textarea 
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        rows="3"
+                        placeholder="Enter reason for stock adjustment..."></textarea>
+                </div>
+
+                <div class="mt-6 flex justify-end">
+                    <button class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium flex items-center">
+                        <i class="fas fa-calculator mr-2"></i>Submit Adjustment
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock content %}
