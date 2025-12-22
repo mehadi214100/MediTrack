@@ -12,7 +12,8 @@
                         <p class="text-gray-600 mt-2">Manage all medicines, batches, and inventory settings</p>
                     </div>
                     <div class="flex items-center space-x-3">
-                        <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center">
+                        <button onclick="openMedicineModal()" 
+                                class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center">
                             <i class="fas fa-plus mr-2"></i>Add Medicine
                         </button>
                     </div>
@@ -117,8 +118,8 @@
                                     <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">In Stock</span>
                                 </td>
                                 <td class="px-6 py-4 text-sm font-medium">
-                                    <button class="text-blue-600 hover:text-blue-900 mr-3">View</button>
-                                    <button class="text-green-600 hover:text-green-900">Edit</button>
+                                    <button onclick="openMedicineModal('1')" class="text-green-600 hover:text-green-900 mr-3">Edit</button>
+                                    <button onclick="openBatchModal('1')" class="text-blue-600 hover:text-blue-900">Add Batch</button>
                                 </td>
                             </tr>
                             <tr class="hover:bg-gray-50">
@@ -137,8 +138,8 @@
                                     <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">In Stock</span>
                                 </td>
                                 <td class="px-6 py-4 text-sm font-medium">
-                                    <button class="text-blue-600 hover:text-blue-900 mr-3">View</button>
-                                    <button class="text-green-600 hover:text-green-900">Edit</button>
+                                    <button onclick="openMedicineModal('2')" class="text-green-600 hover:text-green-900 mr-3">Edit</button>
+                                    <button onclick="openBatchModal('2')" class="text-blue-600 hover:text-blue-900">Add Batch</button>
                                 </td>
                             </tr>
                             <tr class="hover:bg-gray-50">
@@ -157,8 +158,8 @@
                                     <span class="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-800">Low Stock</span>
                                 </td>
                                 <td class="px-6 py-4 text-sm font-medium">
-                                    <button class="text-blue-600 hover:text-blue-900 mr-3">View</button>
-                                    <button class="text-green-600 hover:text-green-900">Edit</button>
+                                    <button onclick="openMedicineModal('3')" class="text-green-600 hover:text-green-900 mr-3">Edit</button>
+                                    <button onclick="openBatchModal('3')" class="text-blue-600 hover:text-blue-900">Add Batch</button>
                                 </td>
                             </tr>
                             <tr class="hover:bg-gray-50">
@@ -177,8 +178,8 @@
                                     <span class="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800">Critical</span>
                                 </td>
                                 <td class="px-6 py-4 text-sm font-medium">
-                                    <button class="text-blue-600 hover:text-blue-900 mr-3">View</button>
-                                    <button class="text-green-600 hover:text-green-900">Edit</button>
+                                    <button onclick="openMedicineModal('4')" class="text-green-600 hover:text-green-900 mr-3">Edit</button>
+                                    <button onclick="openBatchModal('4')" class="text-blue-600 hover:text-blue-900">Add Batch</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -207,61 +208,46 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
                 <!-- Category Management -->
                 <div class="bg-white rounded-xl shadow-md p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-6">Medicine Categories</h3>
-                    <div class="space-y-4">
-                        <div class="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200">
-                            <div class="flex items-center">
-                                <div class="bg-blue-100 p-2 rounded-full mr-3">
-                                    <i class="fas fa-tablets text-blue-600"></i>
-                                </div>
-                                <div>
-                                    <p class="text-sm font-medium text-gray-900">Tablets</p>
-                                    <p class="text-xs text-gray-500">24 medicines</p>
-                                </div>
-                            </div>
-                            <button class="text-blue-600 hover:text-blue-800">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                        </div>
-                        <div class="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200">
-                            <div class="flex items-center">
-                                <div class="bg-green-100 p-2 rounded-full mr-3">
-                                    <i class="fas fa-syringe text-green-600"></i>
-                                </div>
-                                <div>
-                                    <p class="text-sm font-medium text-gray-900">Injections</p>
-                                    <p class="text-xs text-gray-500">12 medicines</p>
-                                </div>
-                            </div>
-                            <button class="text-blue-600 hover:text-blue-800">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                        </div>
-                        <div class="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200">
-                            <div class="flex items-center">
-                                <div class="bg-yellow-100 p-2 rounded-full mr-3">
-                                    <i class="fas fa-prescription-bottle-alt text-yellow-600"></i>
-                                </div>
-                                <div>
-                                    <p class="text-sm font-medium text-gray-900">Syrups</p>
-                                    <p class="text-xs text-gray-500">8 medicines</p>
-                                </div>
-                            </div>
-                            <button class="text-blue-600 hover:text-blue-800">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="mt-6">
-                        <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors duration-200 w-full flex items-center justify-center">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-semibold text-gray-900">Medicine Categories</h3>
+                        <button  onclick="openCategoryModal()" class="px-4  py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors duration-200 flex items-center text-sm">
                             <i class="fas fa-plus mr-2"></i>Add New Category
                         </button>
+                    </div>
+                    <div class="space-y-4" id="categoriesData">
+                        {% for category in categories %}
+                        <div class="category-item flex items-center justify-between categories p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                            <div class="flex items-center">
+                                <div class="bg-blue-100 p-2 rounded-full mr-3">
+                                    <i class="fa-regular fa-circle-dot text-blue-600"></i>
+                                    
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900">{{category.name}}</p>
+                                    <p class="text-xs text-gray-500">{{category.medichine_count}} medicines</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-6">
+                                <button data-id={{category.id}} class="text-blue-600 hover:text-blue-800 btn-edit">
+                                <i class="fas fa-edit"></i>
+                                </button>
+                                <button data-id={{category.id}} class="text-red-500 hover:text-red-600 btn-delete">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        {% endfor %}
                     </div>
                 </div>
 
                 <!-- Supplier Management -->
                 <div class="bg-white rounded-xl shadow-md p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-6">Suppliers</h3>
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-semibold text-gray-900">Suppliers</h3>
+                        <button onclick="openSupplierModal()" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors duration-200 flex items-center text-sm">
+                            <i class="fas fa-plus mr-2"></i>Add New Supplier
+                        </button>
+                    </div>
                     <div class="space-y-4">
                         <div class="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200">
                             <div class="flex items-center">
@@ -273,7 +259,7 @@
                                     <p class="text-xs text-gray-500">Primary supplier</p>
                                 </div>
                             </div>
-                            <button class="text-blue-600 hover:text-blue-800">
+                            <button onclick="openSupplierModal('1')" class="text-blue-600 hover:text-blue-800">
                                 <i class="fas fa-edit"></i>
                             </button>
                         </div>
@@ -287,7 +273,7 @@
                                     <p class="text-xs text-gray-500">Secondary supplier</p>
                                 </div>
                             </div>
-                            <button class="text-blue-600 hover:text-blue-800">
+                            <button onclick="openSupplierModal('2')" class="text-blue-600 hover:text-blue-800">
                                 <i class="fas fa-edit"></i>
                             </button>
                         </div>
@@ -301,15 +287,10 @@
                                     <p class="text-xs text-gray-500">International supplier</p>
                                 </div>
                             </div>
-                            <button class="text-blue-600 hover:text-blue-800">
+                            <button onclick="openSupplierModal('3')" class="text-blue-600 hover:text-blue-800">
                                 <i class="fas fa-edit"></i>
                             </button>
                         </div>
-                    </div>
-                    <div class="mt-6">
-                        <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors duration-200 w-full flex items-center justify-center">
-                            <i class="fas fa-plus mr-2"></i>Add New Supplier
-                        </button>
                     </div>
                 </div>
             </div>
@@ -363,4 +344,403 @@
             </div>
         </div>
     </main>
+
+    <!-- Modals -->
+    
+    <!-- Category Modal -->
+    <div id="categoryModal" class="fixed inset-0 bg-gray-500 bg-opacity-75 hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900" id="categoryModalTitle">Add New Category</h3>
+                    <button onclick="closeModal('categoryModal')" class="text-gray-400 hover:text-gray-500">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <form id="categoryForm">
+                    {% csrf_token %}
+                    <input type="hidden" name="catid" id="catid" />
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Category Name *</label>
+                            <input 
+                                type="text" 
+                                   id="categoryName"
+                                   name="name"
+                                   required
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                   placeholder="Enter category name">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                            <textarea 
+                                id="categoryDescription"
+                                name="description"
+                                rows="3"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="Enter category description (optional)"></textarea>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex justify-end space-x-3">
+                        <button type="button" onclick="closeModal('categoryModal')" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                            Cancel
+                        </button>
+                        <button id="saveCategory" type="button" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200">
+                            Save Category
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Supplier Modal -->
+    <div id="supplierModal" class="fixed inset-0 bg-gray-500 bg-opacity-75 hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900" id="supplierModalTitle">Add New Supplier</h3>
+                    <button onclick="closeModal('supplierModal')" class="text-gray-400 hover:text-gray-500">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <form id="supplierForm">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Supplier Name *</label>
+                            <input type="text" 
+                                   id="supplierName"
+                                   name="name"
+                                   required
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                   placeholder="Enter supplier name">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Contact Email</label>
+                            <input type="email" 
+                                   id="supplierEmail"
+                                   name="contact_email"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                   placeholder="Enter contact email">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label>
+                            <input type="tel" 
+                                   id="supplierPhone"
+                                   name="phone"
+                                   required
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                   placeholder="Enter phone number">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Icon Image</label>
+                            <input type="file" 
+                                   id="supplierIcon"
+                                   name="icon"
+                                   accept="image/*"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                    </div>
+                    <div class="mt-6 flex justify-end space-x-3">
+                        <button type="button" onclick="closeModal('supplierModal')" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                            Cancel
+                        </button>
+                        <button type="button" onclick="saveSupplier()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200">
+                            Save Supplier
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Medicine Modal -->
+    <div id="medicineModal" class="fixed inset-0 bg-gray-500 bg-opacity-75 hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900" id="medicineModalTitle">Add New Medicine</h3>
+                    <button onclick="closeModal('medicineModal')" class="text-gray-400 hover:text-gray-500">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <form id="medicineForm">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Medicine Name *</label>
+                            <input type="text" 
+                                   id="medicineName"
+                                   name="name"
+                                   required
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                   placeholder="Enter medicine name">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Generic Name *</label>
+                            <input type="text" 
+                                   id="medicineGeneric"
+                                   name="generic_name"
+                                   required
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                   placeholder="Enter generic name">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Category *</label>
+                            <select id="medicineCategory"
+                                    name="category"
+                                    required
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                <option value="">Select Category</option>
+                                <option value="1">Tablets</option>
+                                <option value="2">Injections</option>
+                                <option value="3">Syrups</option>
+                                <option value="4">Capsules</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Reorder Level *</label>
+                            <input type="number" 
+                                   id="medicineReorder"
+                                   name="reorder_level"
+                                   required
+                                   min="1"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                   placeholder="Enter reorder level">
+                        </div>
+                    </div>
+                    <div class="mt-6 flex justify-end space-x-3">
+                        <button type="button" onclick="closeModal('medicineModal')" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                            Cancel
+                        </button>
+                        <button type="button" onclick="saveMedicine()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200">
+                            Save Medicine
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Batch Modal -->
+    <div id="batchModal" class="fixed inset-0 bg-gray-500 bg-opacity-75 hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900" id="batchModalTitle">Add New Batch</h3>
+                    <button onclick="closeModal('batchModal')" class="text-gray-400 hover:text-gray-500">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <form id="batchForm">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Medicine *</label>
+                            <select id="batchMedicine"
+                                    name="medicine"
+                                    required
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                <option value="">Select Medicine</option>
+                                <option value="1">Paracetamol 500mg</option>
+                                <option value="2">Amoxicillin 250mg</option>
+                                <option value="3">Insulin Glargine</option>
+                                <option value="4">Adrenaline 1mg</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Supplier *</label>
+                            <select id="batchSupplier"
+                                    name="supplier"
+                                    required
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                <option value="">Select Supplier</option>
+                                <option value="1">MediPharm Distributors</option>
+                                <option value="2">HealthCare Supplies Ltd.</option>
+                                <option value="3">Global Pharma Corp</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Batch Number *</label>
+                            <input type="text" 
+                                   id="batchNumber"
+                                   name="batch_number"
+                                   required
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                   placeholder="Enter batch number">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Buy Price *</label>
+                            <input type="number" 
+                                   id="batchBuyPrice"
+                                   name="buy_price"
+                                   required
+                                   step="0.001"
+                                   min="0"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                   placeholder="Enter buy price">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Manufacturing Date *</label>
+                            <input type="date" 
+                                   id="batchMfgDate"
+                                   name="mfg_date"
+                                   required
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Expiry Date *</label>
+                            <input type="date" 
+                                   id="batchExpDate"
+                                   name="exp_date"
+                                   required
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Invoice Number</label>
+                            <input type="text" 
+                                   id="batchInvoice"
+                                   name="invoice_no"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                   placeholder="Enter invoice number">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Initial Quantity *</label>
+                            <input type="number" 
+                                   id="batchQuantity"
+                                   name="current_quantity"
+                                   required
+                                   min="0"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                   placeholder="Enter initial quantity">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Profit Percentage *</label>
+                            <input type="number" 
+                                   id="batchProfit"
+                                   name="profit_percentage"
+                                   required
+                                   min="0"
+                                   max="100"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                   placeholder="Enter profit percentage">
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Additional Notes</label>
+                        <textarea 
+                            id="batchNotes"
+                            name="additional_note"
+                            rows="3"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="Enter any additional notes"></textarea>
+                    </div>
+                    <div class="mt-6 flex justify-end space-x-3">
+                        <button type="button" onclick="closeModal('batchModal')" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                            Cancel
+                        </button>
+                        <button type="button" onclick="saveBatch()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200">
+                            Save Batch
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data storage (in a real app, this would come from Django backend)
+
+        let suppliers = [
+            {id: 1, name: "MediPharm Distributors", contact_email: "contact@medipharm.com", phone: "0123456789", type: "Primary supplier"},
+            {id: 2, name: "HealthCare Supplies Ltd.", contact_email: "info@healthcaresupplies.com", phone: "0987654321", type: "Secondary supplier"},
+            {id: 3, name: "Global Pharma Corp", contact_email: "sales@globalpharma.com", phone: "0555555555", type: "International supplier"}
+        ];
+
+        let medicines = [
+            {id: 1, name: "Paracetamol 500mg", generic_name: "Analgesic/Antipyretic", category_id: 1, reorder_level: 100, total_stock: 1250, batch_count: 4, status: "in_stock"},
+            {id: 2, name: "Amoxicillin 250mg", generic_name: "Antibiotic", category_id: 4, reorder_level: 150, total_stock: 850, batch_count: 3, status: "in_stock"},
+            {id: 3, name: "Insulin Glargine", generic_name: "Anti-diabetic", category_id: 2, reorder_level: 50, total_stock: 320, batch_count: 2, status: "low_stock"},
+            {id: 4, name: "Adrenaline 1mg", generic_name: "Emergency", category_id: 2, reorder_level: 10, total_stock: 5, batch_count: 1, status: "critical"}
+        ];
+
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            resetForms();
+        }
+
+        function resetForms() {
+            // Reset all forms
+            document.getElementById('categoryForm').reset();
+            document.getElementById('supplierForm').reset();
+            document.getElementById('medicineForm').reset();
+            document.getElementById('batchForm').reset();
+            
+            // Reset hidden data attributes
+            document.getElementById('categoryForm').setAttribute('data-id', '');
+            document.getElementById('supplierForm').setAttribute('data-id', '');
+            document.getElementById('medicineForm').setAttribute('data-id', '');
+            document.getElementById('batchForm').setAttribute('data-id', '');
+            
+            // Reset titles
+            document.getElementById('categoryModalTitle').textContent = 'Add New Category';
+            document.getElementById('supplierModalTitle').textContent = 'Add New Supplier';
+            document.getElementById('medicineModalTitle').textContent = 'Add New Medicine';
+            document.getElementById('batchModalTitle').textContent = 'Add New Batch';
+        }
+
+        function openCategoryModal(categoryId = '') {
+            openModal('categoryModal');
+        }
+
+        function openSupplierModal(supplierId = '') {
+            if (supplierId) {
+                const supplier = suppliers.find(s => s.id == supplierId);
+                if (supplier) {
+                    document.getElementById('supplierName').value = supplier.name;
+                    document.getElementById('supplierEmail').value = supplier.contact_email || '';
+                    document.getElementById('supplierPhone').value = supplier.phone;
+                    document.getElementById('supplierForm').setAttribute('data-id', supplierId);
+                    document.getElementById('supplierModalTitle').textContent = 'Edit Supplier';
+                }
+            } else {
+                document.getElementById('supplierForm').setAttribute('data-id', '');
+                document.getElementById('supplierModalTitle').textContent = 'Add New Supplier';
+            }
+            openModal('supplierModal');
+        }
+
+        function openMedicineModal(medicineId = '') {
+            if (medicineId) {
+                const medicine = medicines.find(m => m.id == medicineId);
+                if (medicine) {
+                    document.getElementById('medicineName').value = medicine.name;
+                    document.getElementById('medicineGeneric').value = medicine.generic_name;
+                    document.getElementById('medicineCategory').value = medicine.category_id;
+                    document.getElementById('medicineReorder').value = medicine.reorder_level;
+                    document.getElementById('medicineForm').setAttribute('data-id', medicineId);
+                    document.getElementById('medicineModalTitle').textContent = 'Edit Medicine';
+                }
+            } else {
+                document.getElementById('medicineForm').setAttribute('data-id', '');
+                document.getElementById('medicineModalTitle').textContent = 'Add New Medicine';
+            }
+            openModal('medicineModal');
+        }
+
+        function openBatchModal(medicineId = '') {
+            if (medicineId) {
+                document.getElementById('batchMedicine').value = medicineId;
+            }
+            openModal('batchModal');
+        }
+
+
+    </script>
 {% endblock content %}
