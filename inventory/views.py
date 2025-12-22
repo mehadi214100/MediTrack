@@ -20,8 +20,11 @@ def inventory(request):
         medichine_count = Count('medicines')
     )
 
+    suppliers = Supplier.objects.all()
+
     context = {
-        "categories":categories
+        "categories":categories,
+        "suppliers":suppliers,
     }
 
     return render(request,'inventory.html',context)
@@ -64,7 +67,7 @@ def delete_category(request):
         return JsonResponse({"status":1})
     else:
         return JsonResponse({"status":0})
-    
+
 def edit_category(request):
 
     if request.method=='POST':
@@ -78,4 +81,59 @@ def edit_category(request):
         }
 
         return JsonResponse(data)
+
+
+
+def add_supplier(request):
+    if request.method=='POST':
+        supid = request.POST.get('supid')
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+
+        if supid:
+            sup = Supplier.objects.get(id=supid)
+            sup.name = name
+            sup.contact_email = email
+            sup.phone = phone
+            sup.save()
+        else:
+            Supplier.objects.create(
+                name = name,
+                contact_email = email,
+                phone = phone
+            )
+
+        suppliers = list(Supplier.objects.values())
+
+        print(suppliers)
+        
+
+        return JsonResponse({'status':'save','suppliers':suppliers})
     
+
+def delete_supplier(request):
+
+    if request.method=='POST':
+        id = request.POST.get('supid')
+        sup = Supplier.objects.get(id=id)
+        sup.delete()
+        return JsonResponse({"status":1})
+    else:
+        return JsonResponse({"status":0})
+
+
+def edit_supplier(request):
+
+    if request.method=='POST':
+        supid = request.POST.get('supid')
+        cat = Supplier.objects.get(id=supid)
+        
+        data = {
+            'id':cat.id,
+            'name':cat.name,
+            'email':cat.contact_email,
+            'phone':cat.phone,
+        }
+
+        return JsonResponse(data)

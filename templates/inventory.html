@@ -248,49 +248,29 @@
                             <i class="fas fa-plus mr-2"></i>Add New Supplier
                         </button>
                     </div>
-                    <div class="space-y-4">
-                        <div class="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                    <div class="space-y-4" id="suppliersData">
+                        {% for supplier in suppliers %}
+                        <div class="supplier-item flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200">
                             <div class="flex items-center">
                                 <div class="bg-purple-100 p-2 rounded-full mr-3">
                                     <i class="fas fa-truck text-purple-600"></i>
                                 </div>
                                 <div>
-                                    <p class="text-sm font-medium text-gray-900">MediPharm Distributors</p>
-                                    <p class="text-xs text-gray-500">Primary supplier</p>
+                                    <p class="text-sm font-medium text-gray-900">{{supplier.name}}</p>
+                                    <p class="text-xs text-gray-500">{{supplier.contact_email}} | {{supplier.phone}}</p>
                                 </div>
                             </div>
-                            <button onclick="openSupplierModal('1')" class="text-blue-600 hover:text-blue-800">
+                            <div class="flex gap-6">
+                                <button data-id={{supplier.id}} class="text-blue-600 hover:text-blue-800 btn-edit">
                                 <i class="fas fa-edit"></i>
-                            </button>
-                        </div>
-                        <div class="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200">
-                            <div class="flex items-center">
-                                <div class="bg-pink-100 p-2 rounded-full mr-3">
-                                    <i class="fas fa-industry text-pink-600"></i>
-                                </div>
-                                <div>
-                                    <p class="text-sm font-medium text-gray-900">HealthCare Supplies Ltd.</p>
-                                    <p class="text-xs text-gray-500">Secondary supplier</p>
-                                </div>
+                                </button>
+                                <button data-id={{supplier.id}} class="text-red-500 hover:text-red-600 btn-delete">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
                             </div>
-                            <button onclick="openSupplierModal('2')" class="text-blue-600 hover:text-blue-800">
-                                <i class="fas fa-edit"></i>
-                            </button>
+
                         </div>
-                        <div class="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200">
-                            <div class="flex items-center">
-                                <div class="bg-indigo-100 p-2 rounded-full mr-3">
-                                    <i class="fas fa-globe text-indigo-600"></i>
-                                </div>
-                                <div>
-                                    <p class="text-sm font-medium text-gray-900">Global Pharma Corp</p>
-                                    <p class="text-xs text-gray-500">International supplier</p>
-                                </div>
-                            </div>
-                            <button onclick="openSupplierModal('3')" class="text-blue-600 hover:text-blue-800">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -406,8 +386,10 @@
                     </button>
                 </div>
                 <form id="supplierForm">
+                    <input type="hidden" name="supid" id="supid" />
                     <div class="space-y-4">
                         <div>
+
                             <label class="block text-sm font-medium text-gray-700 mb-2">Supplier Name *</label>
                             <input type="text" 
                                    id="supplierName"
@@ -433,20 +415,13 @@
                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                    placeholder="Enter phone number">
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Icon Image</label>
-                            <input type="file" 
-                                   id="supplierIcon"
-                                   name="icon"
-                                   accept="image/*"
-                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        </div>
+
                     </div>
                     <div class="mt-6 flex justify-end space-x-3">
                         <button type="button" onclick="closeModal('supplierModal')" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-200">
                             Cancel
                         </button>
-                        <button type="button" onclick="saveSupplier()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200">
+                        <button type="button" id="saveSupplier" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200">
                             Save Supplier
                         </button>
                     </div>
@@ -648,13 +623,7 @@
     </div>
 
     <script>
-        // Sample data storage (in a real app, this would come from Django backend)
 
-        let suppliers = [
-            {id: 1, name: "MediPharm Distributors", contact_email: "contact@medipharm.com", phone: "0123456789", type: "Primary supplier"},
-            {id: 2, name: "HealthCare Supplies Ltd.", contact_email: "info@healthcaresupplies.com", phone: "0987654321", type: "Secondary supplier"},
-            {id: 3, name: "Global Pharma Corp", contact_email: "sales@globalpharma.com", phone: "0555555555", type: "International supplier"}
-        ];
 
         let medicines = [
             {id: 1, name: "Paracetamol 500mg", generic_name: "Analgesic/Antipyretic", category_id: 1, reorder_level: 100, total_stock: 1250, batch_count: 4, status: "in_stock"},
@@ -700,44 +669,16 @@
         }
 
         function openSupplierModal(supplierId = '') {
-            if (supplierId) {
-                const supplier = suppliers.find(s => s.id == supplierId);
-                if (supplier) {
-                    document.getElementById('supplierName').value = supplier.name;
-                    document.getElementById('supplierEmail').value = supplier.contact_email || '';
-                    document.getElementById('supplierPhone').value = supplier.phone;
-                    document.getElementById('supplierForm').setAttribute('data-id', supplierId);
-                    document.getElementById('supplierModalTitle').textContent = 'Edit Supplier';
-                }
-            } else {
-                document.getElementById('supplierForm').setAttribute('data-id', '');
-                document.getElementById('supplierModalTitle').textContent = 'Add New Supplier';
-            }
             openModal('supplierModal');
         }
 
         function openMedicineModal(medicineId = '') {
-            if (medicineId) {
-                const medicine = medicines.find(m => m.id == medicineId);
-                if (medicine) {
-                    document.getElementById('medicineName').value = medicine.name;
-                    document.getElementById('medicineGeneric').value = medicine.generic_name;
-                    document.getElementById('medicineCategory').value = medicine.category_id;
-                    document.getElementById('medicineReorder').value = medicine.reorder_level;
-                    document.getElementById('medicineForm').setAttribute('data-id', medicineId);
-                    document.getElementById('medicineModalTitle').textContent = 'Edit Medicine';
-                }
-            } else {
-                document.getElementById('medicineForm').setAttribute('data-id', '');
-                document.getElementById('medicineModalTitle').textContent = 'Add New Medicine';
-            }
+
             openModal('medicineModal');
         }
 
         function openBatchModal(medicineId = '') {
-            if (medicineId) {
-                document.getElementById('batchMedicine').value = medicineId;
-            }
+
             openModal('batchModal');
         }
 

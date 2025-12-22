@@ -1,3 +1,5 @@
+// ============================== add category==========================
+
 $("#saveCategory").click(function(){
 
     let catid = $("#catid").val()
@@ -71,6 +73,8 @@ $("#saveCategory").click(function(){
 })
 
 
+// =========================== delete category===============
+
 $("#categoriesData").on("click",'.btn-delete',function (){
 
 
@@ -97,6 +101,8 @@ $("#categoriesData").on("click",'.btn-delete',function (){
 })
 
 
+// ====================== edit category======================
+
 $("#categoriesData").on("click",'.btn-edit',function (){
 
 
@@ -117,3 +123,145 @@ $("#categoriesData").on("click",'.btn-edit',function (){
         }
     })
 })
+
+
+// =======================         Add Supplier       ============
+
+$("#saveSupplier").click(function(){
+
+    let supid = $("#supid").val()
+    let name = $("#supplierName").val()
+    let email = $("#supplierEmail").val()
+    let phone = $("#supplierPhone").val()
+    let csrf = $("input[name=csrfmiddlewaretoken]").val()
+
+    if(!name ){
+        alert("Please Enter Supplier name")
+        return
+    }
+
+    if(!phone ){
+        alert("Please Enter Supplier Phone Number")
+        return
+    }
+
+    if(!email ){
+        alert("Please Enter Supplier Email")
+        return
+    }
+    
+    mydata = {
+        "supid":supid,
+        "name":name,
+        "email":email,
+        "phone":phone,
+        "csrfmiddlewaretoken":csrf
+    }
+    
+    output = ""
+    $.ajax({
+        url:"/add_supplier/",
+        data:mydata,
+        method:"POST",
+        success:function (data){
+
+            if(data.status=='save'){
+                
+                suppliers = data.suppliers
+                for(i=0;i<suppliers.length;i++){
+
+                    output += `
+
+
+                    <div class="supplier-item flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                            <div class="flex items-center">
+                                <div class="bg-purple-100 p-2 rounded-full mr-3">
+                                    <i class="fas fa-truck text-purple-600"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900">${suppliers[i].name}</p>
+                                    <p class="text-xs text-gray-500">${suppliers[i].contact_email} | ${suppliers[i].phone}</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-6">
+                                <button data-id=${suppliers[i].id} class="text-blue-600 hover:text-blue-800 btn-edit">
+                                <i class="fas fa-edit"></i>
+                                </button>
+                                <button data-id=${suppliers[i].id} class="text-red-500 hover:text-red-600 btn-delete">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+
+                        </div>
+
+                    `
+
+                }
+                
+                $("#suppliersData").html(output);
+                closeModal('supplierModal')
+
+            }else{
+                alert("Save Faild")
+            }
+
+        }
+    })
+
+
+    
+})
+
+// =======================         delete Supplier       ============
+
+$("#suppliersData").on("click",'.btn-delete',function (){
+
+
+    let supid = $(this).attr('data-id')
+    let csrf = $("input[name=csrfmiddlewaretoken]").val()
+    let mythis = this
+
+     if (!confirm("Are you sure you want to delete this Suppliers?")) {
+        return;
+    }
+
+    $.ajax({
+        url:"/delete_supplier/",
+        method:'POST',
+        data:{supid:supid,csrfmiddlewaretoken:csrf},
+        success: function(data){
+            if(data.status==1){
+                $(mythis).closest(".supplier-item").fadeOut(100)
+            }else{
+                alert("unable to delete")
+            }
+        }
+    })
+})
+// =======================         edit Supplier       ============
+
+
+$("#suppliersData").on("click",'.btn-edit',function (){
+
+
+    let supid = $(this).attr('data-id')
+    let csrf = $("input[name=csrfmiddlewaretoken]").val()
+
+
+    $.ajax({
+        url:"/edit_supplier/",
+        method:'POST',
+        data:{supid:supid,csrfmiddlewaretoken:csrf},
+        success: function(data){
+            $("#supplierModalTitle").text("Edit Supplier");
+            $("#supid").val(data.id);
+            $("#supplierName").val(data.name);
+            $("#supplierEmail").val(data.email);
+            $("#supplierPhone").val(data.phone);
+            openModal('supplierModal');
+        }
+    })
+})
+
+
+
