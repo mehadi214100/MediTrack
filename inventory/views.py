@@ -64,7 +64,9 @@ def delete_category(request):
         id = request.POST.get('catid')
         cat = Category.objects.get(id=id)
         cat.delete()
-        return JsonResponse({"status":1})
+        categories = list(Category.objects.values())
+
+        return JsonResponse({"status":1,"categories":categories})
     else:
         return JsonResponse({"status":0})
 
@@ -125,6 +127,7 @@ def delete_supplier(request):
 
 def edit_supplier(request):
 
+
     if request.method=='POST':
         supid = request.POST.get('supid')
         cat = Supplier.objects.get(id=supid)
@@ -137,3 +140,29 @@ def edit_supplier(request):
         }
 
         return JsonResponse(data)
+    
+
+def add_medichine(request):
+    if(request.method == 'POST'):
+        medicineName = request.POST.get('medicineName')
+        medicineGeneric = request.POST.get('medicineGeneric')
+        medicineReorder = request.POST.get('medicineReorder')
+        medicineCategory = request.POST.get('medicineCategory')
+
+        cat = Category.objects.get(id=medicineCategory)
+        Medicine.objects.create(
+            name = medicineName,
+            generic_name = medicineGeneric,
+            category = cat,
+            reorder_level = medicineReorder
+
+        )
+       
+        categories = list(Category.objects.annotate(
+            medicine_count=Count('medicines')
+        ).values(
+            'id', 'name', 'medicine_count'
+        ))
+        return JsonResponse({"status":"save","categories":categories})
+    else:
+        return JsonResponse({"status":"failed"})

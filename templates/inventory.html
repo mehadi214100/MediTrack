@@ -58,12 +58,11 @@
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
-                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <select id="searchInventoryCat" name="category" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                             <option selected>All Categories</option>
-                            <option>Tablets</option>
-                            <option>Syrups</option>
-                            <option>Injections</option>
-                            <option>Capsules</option>
+                            {% for cat  in categories %}
+                                    <option value="{{cat.id}}">{{cat.name}}</option>
+                            {% endfor %}
                         </select>
                     </div>
 
@@ -441,6 +440,7 @@
                     </button>
                 </div>
                 <form id="medicineForm">
+                    {% csrf_token %}
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Medicine Name *</label>
@@ -467,10 +467,9 @@
                                     required
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                                 <option value="">Select Category</option>
-                                <option value="1">Tablets</option>
-                                <option value="2">Injections</option>
-                                <option value="3">Syrups</option>
-                                <option value="4">Capsules</option>
+                                {% for cat  in categories %}
+                                    <option value="{{cat.id}}">{{cat.name}}</option>
+                                {% endfor %}
                             </select>
                         </div>
                         <div>
@@ -488,7 +487,7 @@
                         <button type="button" onclick="closeModal('medicineModal')" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-200">
                             Cancel
                         </button>
-                        <button type="button" onclick="saveMedicine()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200">
+                        <button type="button" id="saveMedicine" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200">
                             Save Medicine
                         </button>
                     </div>

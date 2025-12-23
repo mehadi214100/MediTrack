@@ -1,5 +1,51 @@
 // ============================== add category==========================
 
+
+function CategoryUpdate(categories){
+
+    output = ` <option selected>All Categories</option>`
+    for(i=0;i<categories.length;i++){
+        output += `
+            <option value="${categories[i].id}">${categories[i].name}</option>
+        `
+    }
+    return output;
+}
+
+function CategoriesListUpdate(categories){
+
+    output = ""
+    for(i=0;i<categories.length;i++){
+
+    output += `
+    
+    <div class=" category-item flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+            <div class="flex items-center">
+                <div class="bg-blue-100 p-2 rounded-full mr-3">
+                    <i class="fa-regular fa-circle-dot text-blue-600"></i>
+                    
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-gray-900">${categories[i].name}</p>
+                    <p class="text-xs text-gray-500">${categories[i].medicine_count} medicines</p>
+                </div>
+            </div>
+                <div class="flex gap-6">
+                <button data-id=${categories[i].id} class="text-blue-600 hover:text-blue-800 btn-edit">
+                <i class="fas fa-edit"></i>
+                </button>
+                <button data-id=${categories[i].id} class="text-red-500 hover:text-red-600 btn-delete">
+                    <i class="fa-solid fa-trash "></i>
+                </button>
+            </div>
+        </div>
+    `
+
+    }
+        return output
+}
+
+
 $("#saveCategory").click(function(){
 
     let catid = $("#catid").val()
@@ -28,37 +74,14 @@ $("#saveCategory").click(function(){
             if(data.status=='save'){
                 
                 categories = data.categories
-                for(i=0;i<categories.length;i++){
-
-                    output += `
-                    
-
-                    <div class=" category-item flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200">
-                            <div class="flex items-center">
-                                <div class="bg-blue-100 p-2 rounded-full mr-3">
-                                    <i class="fa-regular fa-circle-dot text-blue-600"></i>
-                                    
-                                </div>
-                                <div>
-                                    <p class="text-sm font-medium text-gray-900">${categories[i].name}</p>
-                                    <p class="text-xs text-gray-500">${categories[i].medicine_count} medicines</p>
-                                </div>
-                            </div>
-                             <div class="flex gap-6">
-                                <button data-id=${categories[i].id} class="text-blue-600 hover:text-blue-800 btn-edit">
-                                <i class="fas fa-edit"></i>
-                                </button>
-                                <button data-id=${categories[i].id} class="text-red-500 hover:text-red-600 btn-delete">
-                                    <i class="fa-solid fa-trash "></i>
-                                </button>
-                            </div>
-                        </div>
-
-                    `
-
-                }
+                
+                output = CategoriesListUpdate(categories)
 
                 $("#categoriesData").html(output);
+               
+                options = CategoryUpdate(categories)
+                $("#searchInventoryCat").html(options);
+                $("#medicineCategory").html(options);
                 closeModal('categoryModal')
 
             }else{
@@ -91,8 +114,14 @@ $("#categoriesData").on("click",'.btn-delete',function (){
         method:'POST',
         data:{catid:catid,csrfmiddlewaretoken:csrf},
         success: function(data){
+            categories = data.categories
             if(data.status==1){
                 $(mythis).closest(".category-item").fadeOut(100)
+
+                options = CategoryUpdate(categories)
+                
+                $("#searchInventoryCat").html(options);
+                $("#medicineCategory").html(options);
             }else{
                 alert("unable to delete")
             }
@@ -265,3 +294,52 @@ $("#suppliersData").on("click",'.btn-edit',function (){
 
 
 
+$("#saveMedicine").click(function (){
+
+    let medicineName = $("#medicineName").val()
+    let medicineGeneric = $("#medicineGeneric").val()
+    let medicineCategory = $("#medicineCategory").val()
+    let medicineReorder = $("#medicineReorder").val()
+    let csrf = $("input[name=csrfmiddlewaretoken]").val()
+
+    data = {
+        "medicineName":medicineName,
+        "medicineGeneric":medicineGeneric,
+        "medicineCategory":medicineCategory,
+        "medicineReorder":medicineReorder,
+        "csrfmiddlewaretoken":csrf
+    }
+    if(!medicineName || !medicineGeneric || !medicineCategory || ! medicineReorder){
+        alert("Please enter all data ")
+    }
+
+    $.ajax({
+        url:"/add_medichine/",
+        data:data,
+        method:"POST",
+
+        success:function(data){
+
+            if(data.status == "save"){
+                alert("Data Save Successfully")
+                
+                categories = data.categories
+                
+
+                output = CategoriesListUpdate(categories)
+
+                console.log(categories)
+
+                $("#categoriesData").html(output);
+
+                closeModal('medicineModal')
+            }else{
+                alert("Unable to Save")
+            }
+        }
+
+    })
+    
+
+    
+})

@@ -17,4 +17,7 @@ urlpatterns = [
     path('add_supplier/',views.add_supplier,name="add_supplier"),
     path('delete_supplier/',views.delete_supplier,name="delete_supplier"),
     path('edit_supplier/',views.edit_supplier,name="edit_supplier"),
+
+
+    path('add_medichine/',views.add_medichine,name="add_medichine"),
 ]
