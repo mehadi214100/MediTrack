@@ -339,7 +339,96 @@ $("#saveMedicine").click(function (){
         }
 
     })
-    
+})
 
+
+$(document).ready(function(){
+    const $batchInput = $('#batch-number-input');
+
+    $("#medicine-select").change(function(){
+        let medid = $(this).val();
+        if (!medid) {
+                $batchInput.val('Auto Generate it');
+                return;
+            }
+        
+        $.ajax({
+            url:'/get-batch-number/',
+            method:"GET",
+            data:{'medicine_id': medid},
+            success: function(data){
+                    if (data.status === 'success') {
+                        $batchInput.val(data.batch_number);
+                    } else {
+                        $batchInput.val('');
+                    }
+            }
+        })
+
+    })
+
+
+})
+
+$("#saveBatch").click(function(e){
+    e.preventDefault();
+
+    let medicineId = $("#medicine-select").val()
+    let batchId = $("#batch-number-input").val()
+    let quantity = $("#quantity").val()
+    let mfgDate = $("#mfgDate").val()
+    let expDate = $("#expDate").val()
+    let buyingPrice = $("#buyingPrice").val()
+    let supplierId = $("#supplierInfo").val()
+    let profitPercentage = $("#profitPercentage").val()
+    let additionalNote = $("#additionalNote").val()
+    let invoiceNumber = $("#invoiceNumber").val()
+    let csrf = $("input[name=csrfmiddlewaretoken]").val()
+
+
+    data = {
+        "medicineId":medicineId,
+        "batchId":batchId,
+        "quantity":quantity,
+        "mfgDate":mfgDate,
+        "expDate":expDate,
+        "buyingPrice":buyingPrice,
+        "supplierId":supplierId,
+        "profitPercentage":profitPercentage,
+        "additionalNote":additionalNote,
+        "csrfmiddlewaretoken":csrf,
+        "invoiceNumber":invoiceNumber,
+    }
     
+    $.ajax({
+
+        url:"/save_batch/",
+        data:data,
+        method:"POST",
+        success:function(data){
+
+            if(data.status=='save'){
+                alert("Batch added Successfuly")
+                $("form")[0].reset()
+                
+                let t = data.new_transactions;
+
+                let newData = `
+
+                        <div class="border-l-4 border-green-500 pl-4 py-2 hover:bg-gray-50 transition-colors duration-200">
+                                <div class="flex justify-between">
+                                    <span class="text-sm font-medium text-gray-900">${t.batch_number}</span>
+                                    <span class="text-xs text-gray-500">${t.time} </span>
+                                </div>
+                                <p class="text-sm text-gray-600">${t.medicine_name} × ${t.quantity}</p>
+                            </div>
+                `
+                $("#recent-transactions-list").prepend(newData);
+
+            }else{
+                alert("Save Faild")
+            }
+
+        }
+    })
 })

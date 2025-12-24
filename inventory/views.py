@@ -1,13 +1,24 @@
 from django.shortcuts import render
-from .models import Category,Medicine,Batch,Supplier
+from .models import Category,Medicine,Batch,Supplier,Transaction
 from django.http import JsonResponse
 from django.db.models import Count
+from django.utils import timezone
+from django.utils.timesince import timesince
+
 
 def dashboard(request):
     return render(request,'index.html')
 
 def stock_in(request):
-    return render(request,'stock_in.html')
+    medichines = Medicine.objects.all()
+    suppliers = Supplier.objects.all()
+    transactions = Transaction.objects.select_related('batch__medicine').all().order_by('-timestamp')
+    context = {
+        "medichines":medichines,
+        "suppliers":suppliers,
+        'transactions':transactions,
+    }
+    return render(request,'stock_in.html',context)
 
 def dispense(request):
     return render(request,'dispense.html')
@@ -83,8 +94,6 @@ def edit_category(request):
         }
 
         return JsonResponse(data)
-
-
 
 def add_supplier(request):
     if request.method=='POST':
@@ -166,3 +175,78 @@ def add_medichine(request):
         return JsonResponse({"status":"save","categories":categories})
     else:
         return JsonResponse({"status":"failed"})
+    
+
+def generate_batch_number(request):
+    medichine_id = request.GET.get('medicine_id')
+
+    if medichine_id:
+        try:
+            medichine = Medicine.objects.get(id=medichine_id)
+
+            words = medichine.name.split()
+            initials = "".join([word[0] for word in words])
+            current_year = timezone.now().year
+
+            current_batch_id = Batch.objects.filter(
+                medicine = medichine,
+                created_at__year = current_year
+            ).count()
+
+            next_serial = str(current_batch_id + 1)
+            batch_number = f"{initials}-{current_year}-{next_serial}"
+
+
+            return JsonResponse({'batch_number': batch_number, 'status': 'success'})
+        
+        except Medicine.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'Medicine not found'})
+    return JsonResponse({'status': 'error', 'message': 'Invalid request'})
+
+
+def save_batch(request):
+    if request.method=="POST":
+        
+        medicineId = request.POST.get('medicineId')
+        supplierId = request.POST.get('supplierId')
+        batch_number = request.POST.get('batchId')
+        buy_price = float(request.POST.get('buyingPrice'))
+        mfg_date = request.POST.get('mfgDate')
+        exp_date  = request.POST.get('expDate')
+        invoice_no = request.POST.get('invoiceNumber')
+        additional_note = request.POST.get('additionalNote')
+        profit_percentage = int(request.POST.get('profitPercentage'))
+        quantity = int(request.POST.get('quantity'))
+        
+        
+        medicine = Medicine.objects.get(id=medicineId)
+        supplier = Supplier.objects.get(id=supplierId)
+        
+
+        batch = Batch.objects.create(
+            medicine=medicine,
+            supplier=supplier,
+            batch_number=batch_number,
+            buy_price=buy_price,
+            mfg_date=mfg_date,
+            exp_date=exp_date,
+            invoice_no=invoice_no,
+            additional_note=additional_note,
+            profit_percentage=profit_percentage,
+        )
+
+        Transaction.objects.create(
+            batch = batch,
+            transaction_type = 'in',
+            quantity = quantity
+        )
+        new_data = {
+                "batch_number": batch.batch_number,
+                "medicine_name": medicine.generic_name, 
+                "quantity": quantity,
+                "time": "Just now"
+            }
+
+        return JsonResponse({"status":"save","new_transactions":new_data})
+    else:
+        print("Not Received")

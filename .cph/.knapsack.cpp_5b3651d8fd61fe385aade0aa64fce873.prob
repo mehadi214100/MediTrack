@@ -1,0 +1,1 @@
+{"name":"Local: knapsack","url":"e:\\Django\\Project\\MediTrack\\knapsack.cpp","tests":[{"id":1766591388832,"input":"4\n1 5 3 2\n5 2 4 3\n7","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"e:\\Django\\Project\\MediTrack\\knapsack.cpp","group":"local","local":true}
