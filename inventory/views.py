@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.db.models import Count
 from django.utils import timezone
 from django.utils.timesince import timesince
-
+from datetime import date
 
 def dashboard(request):
     return render(request,'index.html')
@@ -21,7 +21,11 @@ def stock_in(request):
     return render(request,'stock_in.html',context)
 
 def dispense(request):
-    return render(request,'dispense.html')
+    medichines = Medicine.objects.all()
+    context = {
+        "medichines":medichines,
+    }
+    return render(request,'dispense.html',context)
 
 def reports(request):
     return render(request,'reports.html')
@@ -249,4 +253,60 @@ def save_batch(request):
 
         return JsonResponse({"status":"save","new_transactions":new_data})
     else:
-        print("Not Received")
+        return JsonResponse({"status":"failed"})
+
+
+def get_medicine_batches(request):
+    medichine_id = request.GET.get('medid')
+
+    if medichine_id:
+        try:
+            medicine = Medicine.objects.get(id=medichine_id)
+            batches = Batch.objects.filter(medicine=medicine).order_by('exp_date')
+
+            totalstock  = 0
+            for bat in batches:
+                totalstock += bat.current_quantity
+
+            medicine_info = {
+                "name":medicine.name,
+                "generic_name":medicine.generic_name,
+                "category":medicine.category.name,
+                "batch_count":batches.count(),
+                "totalstock":totalstock
+            }
+            batches_list = []
+
+            for batch in batches:
+                batch_no = batch.batch_number
+                exp_date = batch.exp_date
+                days_left = (exp_date  - date.today()).days
+                quantity = batch.current_quantity
+                status = ""
+
+                if(days_left>30):
+                    status = "SAFE"
+                elif(days_left>7):
+                    status = "WARNING"
+                elif(days_left>=0):
+                    status = "CRITICAL"
+
+                price = batch.selling_price
+
+                if(days_left>=0):
+                    batches_list.append({
+                        "batch_no" :  batch_no,
+                        "exp_date" :  exp_date,
+                        "days_left" :  days_left,
+                        "quantity" :  quantity,
+                        "status" :  status,
+                        "price":price
+                    })
+            
+           
+
+            return JsonResponse({'status': 'success',"medicine_info":medicine_info,"batches_list":batches_list})
+        
+        except Medicine.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'Medicine not found'})
+    return JsonResponse({'status': 'error', 'message': 'Invalid request'})

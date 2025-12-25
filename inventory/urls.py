@@ -22,4 +22,5 @@ urlpatterns = [
     path('add_medichine/',views.add_medichine,name="add_medichine"),
     path('get-batch-number/', views.generate_batch_number, name='get_batch_number'),
     path('save_batch/', views.save_batch, name='save_batch'),
+    path('get_medicine_batches/', views.get_medicine_batches, name='get_medicine_batches'),
 ]

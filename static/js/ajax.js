@@ -432,3 +432,86 @@ $("#saveBatch").click(function(e){
         }
     })
 })
+
+
+$(document).ready(function(){
+    $("#medicineSelectDispense").change(function (){
+
+        let medid = $(this).val();
+
+        $.ajax({
+            url:"/get_medicine_batches/",
+            data:{"medid":medid},
+            method:"GET",
+            success:function(data){
+                if(data.status=="success"){
+
+                    medicine_info = data.medicine_info
+                    batches_list = data.batches_list
+                    output = `
+                        <h2 class="text-xl font-semibold text-gray-900">${medicine_info.generic_name}</h2>
+                        <p class="text-gray-600">${medicine_info.name}| ${medicine_info.category}</p>
+                        <div class="mt-2 flex items-center space-x-4">
+                            <span class="text-sm text-gray-500 flex items-center">
+                                <i class="fas fa-box mr-1"></i> Total Stock: ${medicine_info.totalstock}
+                            </span>
+                            <span class="text-sm text-gray-500 flex items-center">
+                                <i class="fas fa-calendar-alt mr-1"></i> Batches: ${medicine_info.batch_count}
+                            </span>
+                        </div>
+                    `
+
+                    batches_list_output = ""
+
+                    for(i=0;i<batches_list.length;i++){
+                        batch = batches_list[i]
+
+
+                        let statusClass = "";
+
+                        
+                        if (batch.status == "SAFE") {
+                            statusClass = "bg-green-100 text-green-800";
+                        } else if (batch.status == "WARNING") {
+                            statusClass = "bg-yellow-100 text-yellow-800";
+                        } else {
+                            statusClass = "bg-red-100 text-red-800";
+                        }
+
+
+                        batches_list_output += `
+
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-4">
+                                        <input type="radio" name="batchSelect" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                                    </td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">${batch.batch_no}</td>
+                                    <td class="px-4 py-4 text-sm text-gray-900">${batch.exp_date}</td>
+                                    <td class="px-4 py-4">
+                                        <span class="px-2 py-1 text-xs rounded-full  ${statusClass} font-bold">${batch.days_left} DAYS</span>
+                                    </td>
+                                    <td class="px-4 py-4 text-sm text-gray-900">${batch.quantity}</td>
+                                    <td class="px-4 py-4">
+                                        <span class="px-2 py-1 text-xs rounded-full ${statusClass}">${batch.status}</span>
+                                    </td>
+                                    <td class="px-4 py-4 text-sm font-semibold text-blue-500">${batch.price} Tk</td>
+                                </tr>
+
+
+                        `
+                    }
+                    
+                    $("#medicineInfo").html(output)
+                    $("#batchesLists").html(batches_list_output)
+                    
+
+                }else{
+                    alert("Server Error")
+                }
+
+            }
+        })
+
+    })
+    
+})

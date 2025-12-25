@@ -61,7 +61,7 @@ class Batch(models.Model):
     @property
     def selling_price(self):
         profit = (self.buy_price * self.profit_percentage) / 100
-        return self.buy_price + profit
+        return round(self.buy_price + profit,2)
 
     def __str__(self):
         return f"{self.medicine.name} - {self.supplier.name}"
